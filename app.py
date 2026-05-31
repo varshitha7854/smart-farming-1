@@ -1,8 +1,14 @@
 import streamlit as st
-import tensorflow as tf
 import numpy as np
 from PIL import Image
 from pathlib import Path
+
+try:
+    import tensorflow as tf
+    TF_AVAILABLE = True
+except ImportError:
+    TF_AVAILABLE = False
+    tf = None
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -12,14 +18,20 @@ st.set_page_config(page_title="🌿 Smart Farming AI", layout="wide")
 
 @st.cache_resource
 def load_model():
+    if not TF_AVAILABLE:
+        raise RuntimeError(
+            "TensorFlow is not installed in this environment. "
+            "To fix: go to Manage App > Advanced settings, select Python 3.12, and redeploy."
+        )
     model_path = BASE_DIR / "plant_disease_model.h5"
     return tf.keras.models.load_model(model_path, compile=False)
 
 
+model = None
 try:
     model = load_model()
 except Exception as exc:
-    st.error(f"Failed to load plant_disease_model.h5: {exc}")
+    st.error(f"⚠️ Model Loading Error:\n\n{exc}\n\n**To fix this:**\n1. Go to 'Manage App'\n2. Click 'Advanced settings'\n3. Select Python 3.12\n4. Redeploy")
     st.stop()
 
 # Class names
