@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smart-farming"
+version = "1.0.0"
+description = "Plant disease classification using AI"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "streamlit>=1.28.0",
+    "numpy",
+    "pillow",
+    "tensorflow>=2.12; python_version <= '3.12'",
+]
+
+[tool.setuptools]
+packages = []
