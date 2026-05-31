@@ -2,10 +2,10 @@ name: smart-farming
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
+  - python=3.11
   - pip
   - pip:
       - streamlit>=1.28.0
-      - tensorflow==2.20.0
+      - tensorflow==2.15.0
       - numpy
       - pillow
