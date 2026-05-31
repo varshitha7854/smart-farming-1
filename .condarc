@@ -1,7 +1,0 @@
-channels:
-  - conda-forge
-default_channels: []
-custom_multichannels:
-  defaults: []
-channel_priority: strict
-no_plugins: true
