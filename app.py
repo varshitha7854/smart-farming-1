@@ -2,9 +2,25 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 from PIL import Image
+from pathlib import Path
 
-# Load model
-model = tf.keras.models.load_model("plant_disease_model.h5")
+BASE_DIR = Path(__file__).resolve().parent
+
+# ── PAGE CONFIG ───────────────────────────────────────────────
+st.set_page_config(page_title="🌿 Smart Farming AI", layout="wide")
+
+
+@st.cache_resource
+def load_model():
+    model_path = BASE_DIR / "plant_disease_model.h5"
+    return tf.keras.models.load_model(model_path, compile=False)
+
+
+try:
+    model = load_model()
+except Exception as exc:
+    st.error(f"Failed to load plant_disease_model.h5: {exc}")
+    st.stop()
 
 # Class names
 class_names = [
@@ -164,9 +180,6 @@ disease_info_telugu = {
         "prevention": "పనిముట్లు శుభ్రపరచండి"
     }
 }
-
-# ── PAGE CONFIG ───────────────────────────────────────────────
-st.set_page_config(page_title="🌿 Smart Farming AI", layout="wide")
 
 st.title("🌿 Smart Farming AI")
 st.write("Detect plant diseases instantly — upload an image or use your camera.")
